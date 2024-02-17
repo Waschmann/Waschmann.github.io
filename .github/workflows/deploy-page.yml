@@ -4,20 +4,28 @@ on:
   push:
     branches: [main]
 
+permissions:
+  id-token: write
+  pages: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: jetli/trunk-action@v0.4.0
+        with:
+          version: 'latest'
       
       - name: Setup
-        run: cargo install trunk && rustup target add wasm32-unknown-unknown
+        run: rustup target add wasm32-unknown-unknown
 
       - name: Build App
         run: trunk build
       
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v4
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
@@ -35,4 +43,4 @@ jobs:
     steps:
       - name: Deploy Page
         id: deployment
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v4
