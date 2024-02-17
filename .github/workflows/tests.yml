@@ -14,7 +14,9 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-      - run: rustup update && rustup component add clippy rustfmt
+      
+      - name: Toolchain
+        run: rustup update && rustup target add wasm32-unknown-unknown
       
       - name: Build
         run: cargo build
